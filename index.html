@@ -44,3 +44,148 @@
 
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Archive</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #080808;
+      color: #f5f5f5;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .wrap {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 16px;
+    }
+
+    .title {
+      font-size: 20px;
+      margin: 0 0 24px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+
+    /* Masonry 레이아웃 */
+    .gallery {
+      column-count: 3;
+      column-gap: 16px;
+    }
+
+    @media (max-width: 960px) {
+      .gallery {
+        column-count: 2;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .gallery {
+        column-count: 1;
+      }
+    }
+
+    .item {
+      break-inside: avoid;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .item img {
+      width: 100%;
+      display: block;
+      border-radius: 10px;
+      background: #111;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Lightbox */
+    #lightbox[hidden] {
+      display: none;
+    }
+
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 999;
+    }
+
+    #lightbox img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 10px;
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: 16px;
+      right: 20px;
+      border: 0;
+      background: none;
+      font-size: 26px;
+      color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1 class="title">Archive</h1>
+
+    <div class="gallery">
+      <!-- 여기서부터 이미지 카드들. 파일명만 바꿔서 복붙하면 됨 -->
+      <figure class="item">
+        <img src="images/01.jpg" alt="" loading="lazy" data-full="images/01.jpg">
+      </figure>
+      <figure class="item">
+        <img src="images/02.jpg" alt="" loading="lazy" data-full="images/02.jpg">
+      </figure>
+      <figure class="item">
+        <img src="images/03.jpg" alt="" loading="lazy" data-full="images/03.jpg">
+      </figure>
+      <!-- 필요할 만큼 계속 추가 -->
+    </div>
+  </div>
+
+  <!-- 클릭 시 크게 보는 레이어 -->
+  <div id="lightbox" hidden>
+    <button class="lightbox-close" type="button" aria-label="닫기">×</button>
+    <img src="" alt="">
+  </div>
+
+  <script>
+    const lightbox = document.querySelector('#lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+
+    document.querySelectorAll('.gallery img').forEach(img => {
+      img.addEventListener('click', () => {
+        lightboxImg.src = img.dataset.full || img.src;
+        lightbox.hidden = false;
+      });
+    });
+
+    lightbox.addEventListener('click', event => {
+      const target = event.target;
+      if (target === lightbox || target.classList.contains('lightbox-close')) {
+        lightbox.hidden = true;
+        lightboxImg.src = "";
+      }
+    });
+  </script>
+</body>
+</html>
+
